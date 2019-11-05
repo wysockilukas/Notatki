@@ -1,0 +1,81 @@
+
+------------------
+SELECT
+
+  SELECT total_bill, tip, smoker, time
+  FROM tips
+  LIMIT 5;
+
+  tips[['total_bill', 'tip', 'smoker', 'time']].head(5)
+  
+  
+  
+------------------------  
+WHERE 
+
+  SELECT *
+  FROM tips
+  WHERE time = 'Dinner'
+  LIMIT 5;
+
+  tips[tips['time'] == 'Dinner'].head(5)
+  lub
+  is_dinner = tips['time'] == 'Dinner'
+  tips[is_dinner].head(5)
+  
+  
+---------------------
+OR AND
+  SELECT *
+  FROM tips
+  WHERE time = 'Dinner' AND tip > 5.00;
+
+  tips[(tips['time'] == 'Dinner') & (tips['tip'] > 5.00)]
+
+
+
+---------------------
+NULL
+
+  SELECT *
+  FROM frame
+  WHERE col2 IS NULL;
+
+  frame[frame['col2'].isna()]
+  frame[frame['col1'].notna()]
+
+
+
+
+---------------------------
+GROUP BY 
+
+  tips.groupby('sex').size()
+  tips.groupby('sex').count()
+  tips.groupby('sex')['total_bill'].count()
+
+  tips.groupby('day').agg({'tip': np.mean, 'day': np.size})   == SELECT day, AVG(tip), COUNT(*)
+  tips.groupby(['smoker', 'day']).agg({'tip': [np.size, np.mean]})
+
+
+
+
+---------------------
+JOIN
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
