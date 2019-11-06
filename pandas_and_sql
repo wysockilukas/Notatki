@@ -11,6 +11,13 @@ SELECT
   
   
 ------------------------  
+ORDER BY
+  airport_freq[airport_freq.airport_ident == 'KLAX'].sort_values('type')
+  airport_freq[airport_freq.airport_ident == 'KLAX'].sort_values('type', ascending=False)  
+  
+  
+  
+------------------------  
 WHERE 
 
   SELECT *
@@ -31,6 +38,12 @@ OR AND
   WHERE time = 'Dinner' AND tip > 5.00;
 
   tips[(tips['time'] == 'Dinner') & (tips['tip'] > 5.00)]
+  
+  
+---------------------
+IN… NOT IN
+  airports[airports.type.isin(['heliport', 'balloonport'])]
+  airports[~airports.type.isin(['heliport', 'balloonport'])]
 
 
 
@@ -57,12 +70,92 @@ GROUP BY
   tips.groupby('day').agg({'tip': np.mean, 'day': np.size})   == SELECT day, AVG(tip), COUNT(*)
   tips.groupby(['smoker', 'day']).agg({'tip': [np.size, np.mean]})
 
+  airports.groupby(['iso_country', 'type']).size().to_frame('size').reset_index().sort_values(['iso_country', 'size'], ascending=[True, False])
+  After grouping in Pandas, we get back a different type, called a GroupByObject. So we need to convert it back to a DataFrame. 
+  With .reset_index(), we restart row numbering for our data frame.
+
+
+
+---------------------------
+HAVING
+  select type, count(*) from airports where iso_country = 'US' group by type having count(*) > 1000 order by count(*) desc
+  airports[airports.iso_country == 'US'].groupby('type').filter(lambda g: len(g) > 1000).groupby('type').size().sort_values(ascending=False)
 
 
 
 ---------------------
 JOIN
+  pd.merge(df1, df2, on='key')  INNER
+  pd.merge(df1, indexed_df2, left_on='key', right_index=True) INNER
+  pd.merge(df1, df2, on='key', how='left')    LEFT
+  pd.merge(df1, df2, on='key', how='right')   RIGHT
+  pd.merge(df1, df2, on='key', how='outer')   FULL
 
+
+
+
+---------------------
+UNION
+  pd.concat([df1, df2])   ALL
+  pd.concat([df1, df2]).drop_duplicates()
+
+
+
+
+---------------------
+WINDOW FUNCTIONS
+
+    SELECT * FROM (
+      SELECT
+        t.*,
+        ROW_NUMBER() OVER(PARTITION BY day ORDER BY total_bill DESC) AS rn
+      FROM tips t
+    )
+    WHERE rn < 3
+    ORDER BY day, rn;
+
+    (tips.assign(rn=tips.sort_values(['total_bill'], ascending=False)
+                           .groupby(['day'])
+                            .cumcount() + 1)
+             .query('rn < 3')
+             .sort_values(['day', 'rn']))
+             
+    (tips.assign(rnk=tips.groupby(['day'])['total_bill']
+                             .rank(method='first', ascending=False))
+             .query('rnk < 3')
+             .sort_values(['day', 'rnk']))                   
+
+
+    SELECT * FROM (
+      SELECT
+        t.*,
+        RANK() OVER(PARTITION BY sex ORDER BY tip) AS rnk
+      FROM tips t
+      WHERE tip < 2
+    )
+    WHERE rnk < 3
+    ORDER BY sex, rnk;
+
+    (tips[tips['tip'] < 2]
+            .assign(rnk_min=tips.groupby(['sex'])['tip']
+                                .rank(method='min'))
+            .query('rnk_min < 3')
+            .sort_values(['sex', 'rnk_min']))
+
+
+
+
+---------------------
+DDL
+  tips.loc[tips['tip'] < 2, 'tip'] *= 2     ==update and where
+  tips = tips.loc[tips['tip'] <= 9]         ==delete and where
+  
+
+  
+  
+  
+  
+  
 
 
 
