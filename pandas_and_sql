@@ -44,6 +44,9 @@ OR AND
 IN… NOT IN
   airports[airports.type.isin(['heliport', 'balloonport'])]
   airports[~airports.type.isin(['heliport', 'balloonport'])]
+  
+  //in i wyrazenie regularne
+  df1.loc[  df1.SPW.str.contains('6[0-9][0-9]')  , 'POWIAZANIE'] = 'Grupa Santander'  
 
 
 
