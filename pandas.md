@@ -1,6 +1,6 @@
 # Pandas  
 
-##Basics
+## Basics
 pd.options.display.max_rows = 10
 pd.options.display.min_rows = 10
 
