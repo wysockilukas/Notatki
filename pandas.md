@@ -24,3 +24,23 @@ df.shape
 df.descripe()  //statystyki
 ```
 
+## Wybieranie kolumn
+```
+df.['Col1']           //series
+df.[['Col1']]         //dataframe
+df.[['Col1','Col2']]  //dwie kolumny
+df.[['Col2','Col1']]  //dwie kolumny
+df.Col1               //series
+```
+
+## Wybieranie wierszy
+```
+df.['Col1']           //series
+
+```
+
+
+## Metody series
+```
+df.Col1.equals(df['Col1'])
+```
