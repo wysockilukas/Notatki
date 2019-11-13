@@ -35,8 +35,26 @@ df.Col1               //series
 
 ## Wybieranie wierszy
 ```
-df.['Col1']           //series
+df.[0:1]    //wiersz 0
+df.[:10]     >> data frame
+df.[-10:]
+```
+### iloc
+```
+df.iloc[0]   >> series
+df.iloc[:5]  >> data frame
+df.iloc[ list  ]   >> lista wartosci indexu
+df.iloc[ index wierszy , index kolumn]
+df.iloc[listaW, listaC]
+```
 
+### loc
+```
+df.loc['wartosc indexu']
+df.loc['wartosc indexu'].iloc[0]
+df.loc['wartosc indexu', 'index koumny']
+df.loc[listaW, listaC]
+df.loc[ : 'wartosc indexu'] >> od poczatku do 
 ```
 
 
