@@ -58,7 +58,42 @@ df.loc[ : 'wartosc indexu'] >> od poczatku do
 ```
 
 
-## Metody series
+## Series 
+### Metody
 ```
 df.Col1.equals(df['Col1'])
+df.Col1.dtype
+age = df.age
+age.index
+age.describe()
+age.count()     >> wszystkie nie nulle
+age.size        >> wszystkie z nullami
+age.sum()
+age.mean()
+age.std()
+age.min()
+age.max()
+age.ptp()
+age.median()
+age.unique()        >> wylacznie do series
+age.nunique()       >> liczba unikalnyhc
+age.value_count()   >>liczebnosci 
+age.value_counts(dropna = True, sort = True, ascending = False)
+age.value_counts(dropna = True, sort = True, ascending = False, normalize = True)       >>udzial procentowy
+age.value_counts(dropna = True, sort = True, ascending= False, bins = 5).head()         >>liczebnosc w pieciu grupach
 ```
+
+### Tworzenie
+```
+pd.Series([10,25,6,36,2])
+pd.Series([10,25,6,36,2], index=["Mon","Tue","Wed","Thu", "Fri"], name = "Sales")
+pd.Series(  np.array([10,25,6,36,2])  )
+pd.Series( (10,25,6,36,2)  )
+pd.Series(    {"Mon":10, "Tue":25, "Wed":6, "Thu": 36, "Fri": 2}    )
+pd.Series(dic, index = ["Fri", "Sat", "Sun", "Mon", "Tue", "Wed"])      >>dodajemy brakujacy dzien tygodnia
+pd.Series(dic, index = [1,2,3,4,5])
+```
+
+
+
+
