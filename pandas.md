@@ -81,6 +81,11 @@ age.value_count()   >>liczebnosci
 age.value_counts(dropna = True, sort = True, ascending = False)
 age.value_counts(dropna = True, sort = True, ascending = False, normalize = True)       >>udzial procentowy
 age.value_counts(dropna = True, sort = True, ascending= False, bins = 5).head()         >>liczebnosc w pieciu grupach
+
+sales.sort_index()
+sales.sort_index(ascending = True, inplace= True)
+age.sort_values(ascending=False).head(3) ==  age.nlargest(n = 3)
+sales.sort_values(ascending=False)  ==  sales.idxmax()
 ```
 
 ### Tworzenie
