@@ -99,6 +99,13 @@ pd.Series(dic, index = ["Fri", "Sat", "Sun", "Mon", "Tue", "Wed"])      >>dodaje
 pd.Series(dic, index = [1,2,3,4,5])
 ```
 
+### Zmiany
+```
+sales = (sales/1.1).round(2)
+age = titanic["age"]    >> referancje do klumny w data frame
+age.iloc[1] = 30        >>zmieniamy wartosc w dataframe
+mpg = cars.mpg.copy()
+```
 
-
+## Indexy
 
