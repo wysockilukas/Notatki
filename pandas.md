@@ -108,4 +108,24 @@ mpg = cars.mpg.copy()
 ```
 
 ## Indexy
+Występuje index wierszy i kolumn, moze byc liczbowy lub tekstowy
+I inxex wierszy nie musi byc unikalny
+```
+summer = pd.read_csv("summer.csv", index_col="Athlete")
+summer.columns.tolist()
+summer.index.get_loc("DRIVAS, Dimitrios")
+index_1 = pd.Index(range(1,4))
+index_2 = pd.Index(["Mo", "Tue", "Wed"], name = "days")
+pd.Series([34,32,21], index = index_1)
+```
 
+### Resetowanie
+```
+summer.reset_index(drop = False, inplace=True)          >>usuwa i tworzy domyslny
+summer.set_index("Year", drop = True, inplace = True)   >>ustawia index na podstawie kolumny Year
+summer.index.is_unique
+new_index = ["Medal_No{}".format(i) for i in range(1,summer.index.size+1)]
+summer.index = new_index
+summer.index.name = "Medal_No"
+summer.reset_index()                      >> popzreni index Medal_No  stanie sie kolumna, chyba ze damy drop = True
+```
