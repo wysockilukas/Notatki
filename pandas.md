@@ -129,3 +129,27 @@ summer.index = new_index
 summer.index.name = "Medal_No"
 summer.reset_index()                      >> popzreni index Medal_No  stanie sie kolumna, chyba ze damy drop = True
 ```
+
+## Rename column i index
+```
+titanic.columns = ["Alive", "Class", "Sex", "Age", "SibSp", "ParChi", "Fare", "Emb", "Deck"]
+titanic.columns.name = "Pass_Charact"
+titanic.index.name = "Passenger_no"
+summer.rename({"HAJOS, Alfred":'HAYOS, Alfred'}, axis = "index", inplace= True)
+summer.rename({"Gender":'Sex', "City":"Host_City"}, axis = "columns", inplace=True)
+```
+
+
+# Dataframe
+## Filtrowanie
+```
+titanic[titanic.sex == "male"]
+titanic.loc[titanic.sex == "male", [kolumny]]             >>lepiej uzywac loc
+mask1 = titanic.sex == "male"
+titanic_male = titanic.loc[mask1]                         >>lepiej uzywac loc
+titanic_male = titanic[mask1
+
+mask2 = titanic.dtypes == object                          >> kolumy str
+titanic.loc[:, ~mask2]                                    >>filtrujemy kolumny ktore nie sa str
+```
+
