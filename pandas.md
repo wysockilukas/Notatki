@@ -167,3 +167,15 @@ og_72_96 = summer.loc[summer.Year.isin(my_favourite_games)]
 og_not_72_96 = summer.loc[~summer.Year.isin(my_favourite_games)]
 ```
 
+## Usuuwanie kolumn
+```
+summer.drop(columns = ["Sport", "Discipline"], inplace=True)
+summer = summer.loc[:,["Year", "City", "Athlete", "Country", "Gender", "Medal"]]
+```
+
+## Usuwanie wierszy
+```
+summer.drop(labels = "DRIVAS, Dimitrios", axis = 'index',  inplace = True)
+summer = summer.loc[~(mask1 | mask2)]
+```
+
