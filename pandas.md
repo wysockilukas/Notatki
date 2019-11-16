@@ -86,6 +86,8 @@ sales.sort_index()
 sales.sort_index(ascending = True, inplace= True)
 age.sort_values(ascending=False).head(3) ==  age.nlargest(n = 3)
 sales.sort_values(ascending=False)  ==  sales.idxmax()
+
+summer.Year.between(1960, 1969)
 ```
 
 ### Tworzenie
@@ -151,5 +153,17 @@ titanic_male = titanic[mask1
 
 mask2 = titanic.dtypes == object                          >> kolumy str
 titanic.loc[:, ~mask2]                                    >>filtrujemy kolumny ktore nie sa str
+
+mask2 = titanic.age > 14
+mask1 = titanic.sex == "male"
+male_adult = titanic.loc[mask1 & mask2, ["survived", "pclass", "sex", "age"]]
+male_adult = titanic.loc[mask1 | mask2, ["survived", "pclass", "sex", "age"]]
+
+og_60s = summer.loc[summer.Year.between(1960, 1969, inclusive=True)]
+
+my_favourite_games = [1972, 1996]
+summer.Year.isin(my_favourite_games).head()
+og_72_96 = summer.loc[summer.Year.isin(my_favourite_games)]
+og_not_72_96 = summer.loc[~summer.Year.isin(my_favourite_games)]
 ```
 
