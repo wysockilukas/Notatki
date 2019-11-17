@@ -179,3 +179,19 @@ summer.drop(labels = "DRIVAS, Dimitrios", axis = 'index',  inplace = True)
 summer = summer.loc[~(mask1 | mask2)]
 ```
 
+## Dodawanie kolumn
+```
+titanic["Zeros"] = "Zero"
+titanic.Ones = 1
+titanic["YoB"] = 1912 - titanic.age
+titanic.insert(loc = 6, column = "relatives", value = relatives)
+```
+
+## Tworzenie z list
+```
+dic = {"col1": lista1, "col2":lista2}
+df=pandas.DataFrame(data = dic)
+```
+
+
+
