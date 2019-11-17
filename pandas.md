@@ -193,5 +193,9 @@ dic = {"col1": lista1, "col2":lista2}
 df=pandas.DataFrame(data = dic)
 ```
 
+# metody
+```
+titanic.replace(0, "Zero")
+```
 
 
