@@ -170,6 +170,8 @@ my_favourite_games = [1972, 1996]
 summer.Year.isin(my_favourite_games).head()
 og_72_96 = summer.loc[summer.Year.isin(my_favourite_games)]
 og_not_72_96 = summer.loc[~summer.Year.isin(my_favourite_games)]
+
+summer[summer.Event.str.contains("100M")]
 ```
 
 ## Usuuwanie kolumn
