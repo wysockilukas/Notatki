@@ -87,7 +87,12 @@ sales.sort_index(ascending = True, inplace= True)
 age.sort_values(ascending=False).head(3) ==  age.nlargest(n = 3)
 sales.sort_values(ascending=False)  ==  sales.idxmax()
 
+titanic.fare.cumsum(axis=0)
+
 summer.Year.between(1960, 1969)
+_is_view
+_is_copy
+_is_copy is None
 ```
 
 ### Tworzenie
@@ -196,6 +201,58 @@ df=pandas.DataFrame(data = dic)
 # metody
 ```
 titanic.replace(0, "Zero")
+titanic.count(axis = "columns")
+titanic.mean(axis = 1)
+titanic.sum(axis = 0)
+titanic.fare.cumsum(axis = 0)
+itanic.corr()
+titanic.survived.corr(titanic.pclass)
+
+
 ```
+
+## modyfikoanie calego dataframe
+unikamy chainindexing, uzywamy iloc lub loc
+
+## modyfikoanie fragmentu dataframeu, ale nie ruszac oryginalu
+loc, iloc + metpdya .copy()
+
+
+## Sortowanie
+```
+titanic.age.sort_values()
+titanic.sort_values("age")  >>zwraca df, ale nie jest inplace
+titanic.sort_values("age", axis = 0, ascending = True, inplace = True)
+titanic.sort_values(["pclass", "sex", "age"], ascending = [True, False, True], inplace= True)
+```
+
+## Rank
+```
+sales.rank(ascending=False, method = "min").sort_values(ascending = True)
+sales.rank(ascending=False, method = "min", pct=True).sort_values()
+titanic["fare_rank"] = titanic.fare.rank(ascending = False, method="min") 
+```
+## nunique(), nlargest() and nsmallest() 
+```
+titanic.nunique(dropna = False)           >>liczba unikalnych wartosci we wszystkich kolumnach z null lub bez
+titanic.nunique(axis = 1, dropna=False)   >>liczba unikalnych w wierszach
+titanic.nlargest(n = 5, columns = "fare")
+titanic.nsmallest(n = 1, columns = "age")
+```
+
+## apply(), map() and applymap()
+```
+def range(series):
+    return series.max() - series.min()
+sales.apply(range, axis=1)
+sales.apply(lambda x: x.max() - x.min(), axis = 0)
+
+summer.Athlete.apply(lambda x: x[0])
+summer.Athlete.map(lambda x: x[0])
+sales.applymap(lambda x: 0.4*x-5)
+```
+
+
+
 
 
