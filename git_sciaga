@@ -21,10 +21,10 @@ git checkout newBranch
 
 git mergere newBranch
 git remote
-git remote add orgin https://
-git push orgin master
-git push -u orgin master				po tym mozna krocej git push
-pit push --all orgin   				to wysle tez branches
+git remote add origin https://
+git push origin master
+git push -u origin master				po tym mozna krocej git push
+pit push --all origin   				to wysle tez branches
 
 
 git stash save
