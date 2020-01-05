@@ -1,0 +1,3 @@
+# zmienne śrowiskowe
+
+## GOPATH
