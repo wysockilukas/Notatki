@@ -53,7 +53,20 @@ var (
 )
 var x, y int = 3, 4
 var f float64 = math.Sqrt(float64(x*x + y*y))
+int(3.2)  //konwersja
+3/2 = 1
+3.0/2 = 1.5
 ```
+
+ale do konwersji z do string jest pakiet strconv
+
+## Strings
+
+String literal to tekst w ""
+Raw string literal to tekst w `` , moze zawierac wiele linii
+String skalda sie z run, ktore sa z bajtow. I niektore run moga miec wiecej niz jeden bajt, a funkcja len - zwraca liczbe bajtow
+Pakiet unicode/utf8, zawiera funckje ktorazwraca liczbe znakow, nie bajtow **utf8.RuneCountInString**
+Pakiet strings, zawiera wiele funckji do string, jak np repeat
 
 ## Pętla
 
