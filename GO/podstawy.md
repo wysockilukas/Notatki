@@ -59,6 +59,8 @@ int(3.2)  //konwersja
 ```
 
 ale do konwersji z do string jest pakiet strconv  
+typ byte = unit8  
+rune = int32  
 
 ## Strings
 
@@ -67,6 +69,7 @@ Raw string literal to tekst w `` , moze zawierac wiele linii
 String skalda sie z run, ktore sa z bajtow. I niektore run moga miec wiecej niz jeden bajt, a funkcja len - zwraca liczbe bajtow  
 Pakiet unicode/utf8, zawiera funckje ktorazwraca liczbe znakow, nie bajtow **utf8.RuneCountInString**  
 Pakiet strings, zawiera wiele funckji do string, jak np repeat  
+rune to alias typu int32  
 
 ## Pętla
 
