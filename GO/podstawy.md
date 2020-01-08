@@ -82,12 +82,19 @@ for sum < 1000; {
 }
 for {
 }
+//break, continue
+for _, v :=range os.Args[1:] {
+}
 ```
 
 ## IF, Switch
 
+Operatory  
+&&, ||  !, !=
+Dla switch jest cos takiego jak **fallthrough** - pzrechodzi do kolejnego casa  
+
 ```Go
-switch os := runtime.GOOS; os {
+switch os := runtime.GOOS; os {  //short switch, zasięg os jest wewnątrz switch  
 case "darwin":
     fmt.Println("OS X.")
 case "linux":
@@ -116,6 +123,15 @@ case t.Hour() < 17:
     fmt.Println("Good afternoon.")
 default:
     fmt.Println("Good evening.")
+}
+
+switch {
+case i > 100
+
+case i > 0:
+    //to sie  wykona dla (0,100>
+default:
+
 }
 ```
 
