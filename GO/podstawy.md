@@ -70,6 +70,28 @@ String skalda sie z run, ktore sa z bajtow. I niektore run moga miec wiecej niz 
 Pakiet unicode/utf8, zawiera funckje ktorazwraca liczbe znakow, nie bajtow **utf8.RuneCountInString**  
 Pakiet strings, zawiera wiele funckji do string, jak np repeat  
 rune to alias typu int32  
+String to byte slices lub int32 slices  
+'h' - rune litera  
+'h' = 104  
+'h' = 0x68 (Hex)  
+rune code moze przechowac 4 bajty, rune to inczaj unicode costam  
+emoji mają kody ok 128557  
+
+string to read only byte slice  
+ale moze byc konwertowany na byte i wtdy mizna go modyfikowac np
+mozna tez konwertowac string na []rune i wtedy łatwo się czyta znaki w pętli  
+
+```Go
+b:=65
+string(b) = "A"
+b := 65
+fmt.Printf("%-10c %-10[1]d\n", b)
+
+str := "Abc"
+bytes := []byte(str)
+bytes[0] = 'Z'
+fmt.Printf("%s\n", bytes)
+```
 
 ## Pętla
 
@@ -84,6 +106,11 @@ for {
 }
 //break, continue
 for _, v :=range os.Args[1:] {
+}
+
+jakisLabel:
+for _, v :=range os.Args[1:] {
+    break jakisLabel
 }
 ```
 
@@ -159,4 +186,25 @@ fmt.Println(Vertex{1, 2})
 p := &v
 p.X = 100
 p  = &Vertex{1, 2} // p jest pointerem i ma typ *Vertex
+```
+
+## Slices
+
+Slices nie można porownać  
+slicable[ start : stop ]  ; start to index, stop - element positon  
+[]byte{'h','e','l','l','o'}[0:1] = 'h'
+[]byte{'h','e','l','l','o'}[0:2] = 'h','e'
+Slice to struct ktory ma pointer do tablicy, dlugosc i capacity  
+
+```Go
+var s []string
+b:= []string{"a","b"}
+s = append(s, b... )
+s = append(s,"c","d","e")
+len(a)
+sort.Ints([]int{4,2,3,6,8})
+
+make([]int , lenght, capacity)
+s:=make([]int, 0, 5)
+copy(destSlice, sourceSlice)
 ```
