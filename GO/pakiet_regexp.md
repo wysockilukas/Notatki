@@ -1,4 +1,4 @@
-# regexp 
+# regexp
 
 Kompilowanie wzorca wyrażeń regularnych jest kosztowną operacją  
 
