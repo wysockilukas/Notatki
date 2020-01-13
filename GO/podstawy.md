@@ -93,6 +93,28 @@ bytes[0] = 'Z'
 fmt.Printf("%s\n", bytes)
 ```
 
+## Maps and Internals
+
+Mapa to key value  
+Kolejnosć petli po mapie jest losowa  
+
+```Go
+var dict map[string]string    //z jakiegoś powodu te dwie linie daje się razem
+dict =make(map[string]string)  //inicjalizacja mapy
+
+len(dict)
+value := dict[key]
+dict: map[string]string{
+    "klucz":"wartość",
+}
+value, ok := dict[key] //ok is true or false
+for k, v := range dict {
+}
+dict :=make(map[string]string)
+delete(dict, "key")
+dict = nil
+```
+
 ## Pętla
 
 ```Go
