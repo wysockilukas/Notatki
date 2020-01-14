@@ -114,7 +114,7 @@ type adres struct {
 }
 
 type person struct {
-    Name  string `json:"username"`
+    Name  string `json:"username"`  //bo w JSONie pole nazywa się username a nie Name
     Adres adres
 }
 
