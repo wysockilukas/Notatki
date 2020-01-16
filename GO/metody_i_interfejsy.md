@@ -91,7 +91,7 @@ type kasa interface {
 }
 
 /*
-Tworzę nowy typ - slice pobiektów kasa. 
+Tworzę nowy typ - slice pobiektów kasa.
 Robie tak dlatego, że moetody nie można przypiać bezośredo do slice
 */
 type kupioneProdukty []kasa
@@ -124,5 +124,83 @@ fmt.Println(s1.doZaplaty())
 
 //wywoluję metodę cenaZaWszystkie
 fmt.Println(koszyk.cenaZaWszystkie())
+}
+```
+
+Type assrtion i dynamic extreaction  
+W kodzie poniej tworze zmienną o typie kasa, czyli typie interface  
+Wiem ze ten sam typ ma stuktura s1, więc mogę prezypisac p = s1  
+Mogę wywołać funkcję p.doZaplaty() bo jets w definicji interfacu  
+Ale nie mogę dostac się w prost do parametró i iinych funkcji tej struktury  
+Robie to tak p.(typ)...  
+Przykłąd  
+
+```Go
+var p kasa
+p = s1
+fmt.Printf("%#v\n",p)
+fmt.Printf("%#v\n",p.(naSztuki).nazwa)
+
+var p2 kasa
+p2 = &s1
+fmt.Printf("%#v\n",p2)
+fmt.Printf("%#v\n",p2.(*naSztuki).nazwa)
+
+fmt.Println("tot ", p.doZaplaty())
+```
+
+To jest przyklad typ assertion, nie bardzo wiem jak to działa, ale jest ważne  
+ttt, ok :=p2.(*naSztuki)
+fmt.Println(ttt, ok)
+
+### Empty interface
+
+Używanie emty interafce pozwala pisac kod, gdzie typy nie mają znaczenia  
+Bo wszystko mozna przypisać do emtyInt a potem sprawdzic uzywajac dynami type jaki typ się przypisał  
+Przykład
+
+```Go
+type emptyInterface interface{
+
+}
+
+var empty1 emptyInterface
+var empty2 interface{}
+
+empty1 = 42  //przypisuje wartość do pustego interfacu
+fmt.Println(empty1 )  //mogę ją wyświetlić
+
+//empty1 += 5  //nie mogę tego zrobić, jest o error
+empty1 = empty1.(int) + 5  //a tak mogę, używam dyanmic typu i/lub type assertion
+
+fmt.Println(empty1 ,empty2)
+```
+
+Inny przyklad wykorzystania pustego interfacu i dynamic type, gdy nie wiem jakiego typu jest wartośc, którą przypisujemy do typu  
+
+```Go
+var emptyInterface interface{}
+
+emptyInterface = 42
+
+if emptyInterface, ok := emptyInterface.(int); ok {
+    fmt.Println("To liczba ", emptyInterface)
+}
+
+emptyInterface = "42"
+if emptyInterface, ok := emptyInterface.(string); ok {
+    fmt.Println("To string", emptyInterface)
+}
+
+fmt.Println("Hello, playground")
+
+switch emptyInterface := emptyInterface.(type) {
+case int:
+    fmt.Println("To liczba ", emptyInterface)
+case string:
+    v, _ := strconv.Atoi(emptyInterface)
+    fmt.Println("To string", v*3)
+default:
+    fmt.Println("To inny typ", emptyInterface)
 }
 ```
