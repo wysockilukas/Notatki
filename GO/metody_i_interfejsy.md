@@ -78,7 +78,7 @@ type naSztuki struct {
 func (w naWage) doZaplaty() float64 {
     return w.cenaZaKg * w.wagaWKg
 }
-func (s ) doZaplaty() float64 {
+func (s naSztuki) doZaplaty() float64 {
     return s.cenaZaSztuje * float64(s.sztuk)
 }
 
