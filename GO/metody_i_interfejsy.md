@@ -133,7 +133,7 @@ Wiem ze ten sam typ ma stuktura s1, więc mogę prezypisac p = s1
 Mogę wywołać funkcję p.doZaplaty() bo jets w definicji interfacu  
 Ale nie mogę dostac się w prost do parametró i iinych funkcji tej struktury  
 Robie to tak p.(typ)...  
-Przykłąd  
+Przykład  
 
 ```Go
 var p kasa
