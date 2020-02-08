@@ -1,4 +1,0 @@
-
-
-// kopiowanie plikow ktorych nazwa nie zaczyna sie od liczby
-find . -maxdepth 1 -regex '\./[^0-9].*\.png' -exec cp {} /data/htdocs/mobile/img \;
