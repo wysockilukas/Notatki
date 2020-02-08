@@ -1,5 +1,9 @@
 
 
+Routing działa jak include
+ W url jest jakaś scieżka jest ten url zaczyna się od tego co jest w path
+ To komponent jest includowany na stronie 
+
 
 Bedziemy mogli uzyc routingu we wszysktich komponentach, ktore sa dziecmi BrowserRoute
 ```javascript
@@ -26,3 +30,27 @@ import {BrowserRouter, Route}  from 'react-router-dom';
     <Route render = { () => <h1>404</h1>} />
 </Switch>      
 ```
+
+Nawigacja Link i NavLink muszą być wewnątrz BrowserRouter
+```javascript
+<Link to="/">Home</Link>
+<NavLink to="/users">Users</NavLink>
+```
+
+Przekazywanie parametrów
+np Mamy gdzieś 
+```javascript
+<Route path="/courses/:id"   component={Course}/>
+```
+Więc jak w URL mamy /courses/7
+to dla komponentu, który jest includowany na podsatwie tego Route, w params będzie parametr id = 7
+a dokładnie
+```javascript
+this.props.match.params.id
+```
+
+
+
+
+
+
