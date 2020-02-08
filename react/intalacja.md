@@ -1,0 +1,8 @@
+
+
+```bash
+npx create-react-app routing-example
+cd routing-example/
+npm install --save react-router
+npm install --save react-router-dom
+```
