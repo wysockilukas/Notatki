@@ -49,6 +49,10 @@ a dokładnie
 this.props.match.params.id
 ```
 
+Redirect
+```javascript
+<Redirect from="/all-courses" to="/courses" />
+```
 
 
 
