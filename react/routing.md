@@ -59,7 +59,7 @@ czyli tego ktory jest wymieniony w component = {}
 ale mozemy te propsy przekazac w dol, gdy ten zagniezdzony komponent wyeksporuemy jako dziecko HOC  withRouter  
 ```javascript
 import {withRouter} from 'react-router-dom';
-export default <withRouter>burger</withRouter>;
+export default withRouter(burger);
 ```
 
 
