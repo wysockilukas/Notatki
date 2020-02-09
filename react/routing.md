@@ -54,6 +54,14 @@ Redirect
 <Redirect from="/all-courses" to="/courses" />
 ```
 
+Propsy Routera dostępne są tylko dla komponentu ktory został bezpośrendio inkludowany routrem,   
+czyli tego ktory jest wymieniony w component = {}  
+ale mozemy te propsy przekazac w dol, gdy ten zagniezdzony komponent wyeksporuemy jako dziecko HOC  withRouter  
+```javascript
+import {withRouter} from 'react-router-dom';
+export default <withRouter>burger</withRouter>;
+```
+
 
 
 
