@@ -63,6 +63,7 @@ export default withRouter(burger);
 ```
 
 Routing = include z pzrekazaniem propsów  
+ale w ten sposób w komponencie ContactData nie będziemy mieć dostępu do propsów Routingu  
 ```javascript
  <Route 
      path={this.props.match.path + '/contact-data'} 
