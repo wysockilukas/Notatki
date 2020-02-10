@@ -70,6 +70,12 @@ ale w ten sposób w komponencie ContactData nie będziemy mieć dostępu do prop
       render = { () => <ContactData ingredients={this.state.ingredients}/>} 
  />
 ```
-
+Ale są na to sposoby  
+1 to withRouter  
+2 kod ponizej
+```javascript
+render = { (props) => <ContactData ingredients={this.state.ingredients} totalPrice ={this.state.totalPrice} {...props} />} 
+```
+...props oznacza ze beda pzrekazane w dół wszystkie prospy ktorymi dany komponetn dysponuje  
 
 
