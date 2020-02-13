@@ -9,5 +9,6 @@ npm install -g serve
 serve -s build
 
 $ npm install --save redux
+npm install --save react-redux
 
 ```
