@@ -79,3 +79,16 @@ render = { (props) => <ContactData ingredients={this.state.ingredients} totalPri
 ...props oznacza ze beda pzrekazane w dół wszystkie prospy ktorymi dany komponetn dysponuje  
 
 
+### lazy loading
+
+```js
+const AsyncOrders = asyncComponent( () => {
+  return import('./containers/Orders/Orders');
+});
+
+const AsyncCheckout= asyncComponent( () => {
+  return import('./containers/Checkout/Checkout');
+});
+
+```
+
