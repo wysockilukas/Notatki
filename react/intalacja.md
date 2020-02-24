@@ -13,5 +13,6 @@ npm install --save react-redux
 npm install --save redux-thunk
 
 
+npm install --save enzyme react-test-renderer enzyme-adapter-react-16
 
 ```
