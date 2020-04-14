@@ -162,7 +162,7 @@ function test4() {
 function test5() {
 
     var counter = 0,
-        limit = 2000,
+        limit = 20000,
         busy = false;
     let q = 1n,
         r = 180n,
