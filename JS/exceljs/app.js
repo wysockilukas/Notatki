@@ -10,6 +10,7 @@ var Excel = ExcelJS;
 
 
 var znak = String.fromCharCode(160);
+var znak2 = String.fromCharCode(8239);
 
 
 function rgb2hex(rgb) {
@@ -166,13 +167,18 @@ function setNumberFormat(cell, worksheetCell, index, sub_index, scale) {
         //czy w komorce jest liczba
         if (!(/[a-zA-Z<>]/.test(cell.text))) {
 
-            var vInNumber = cell.text.replaceAll(" ", "").replaceAll(znak, '').replaceAll(",", ".").replace("(", "").replace(")", "").replaceAll("%", "");
+            let przed = cell.text
+            var vInNumber = cell.text.replaceAll(" ", "").replaceAll(znak2, '').replaceAll(znak, '').replaceAll(",", ".").replace("(", "").replace(")", "").replaceAll("%", "");
+            // console.log(przed, "\t", vInNumber )
+            
             var fullValue =0
-            if (cell.excel_value=='BRAK' || !(cell.hasOwnProperty("excel_value")) ) {
+            if (cell.excel_value=='BRAK' || !(cell.hasOwnProperty("excel_value")) || cell.excel_value===null ) {
                 fullValue = vInNumber;
             } else {
                 fullValue = Number(cell.excel_value / (1000000/scale));
             }
+
+            // console.log('fullValue ', fullValue)
             
             var lastColonIndex = vInNumber.lastIndexOf(".");
             if (lastColonIndex == -1) {
@@ -225,6 +231,8 @@ function setNumberFormat(cell, worksheetCell, index, sub_index, scale) {
                 worksheetCell.value = fullValue;
                 worksheetCell.numFmt = getFormat('default', vPrecision);
 
+                console.log('worksheetCell.value ', worksheetCell.value,  worksheetCell.numFmt)
+
                 // if (index == 3 && sub_index == 24) {
                 // }
 
@@ -266,13 +274,13 @@ if (typeof excelHTMLObject.excelRows !== 'undefined'){
 			if (isShift){
 				while (shifts[index].hasOwnProperty(mergeOffset)){
 					mergeOffset += shifts[index][mergeOffset];
-					console.log("shift: row %d, cell %d",index,mergeOffset);
+					// console.log("shift: row %d, cell %d",index,mergeOffset);
 				}
 			}
 			try{
 				var worksheetCell = worksheetRow.getCell(mergeOffset + 1);
 			}catch(e){
-				console.log("out of scope?");
+				// console.log("out of scope?");
 			}
 			
 
@@ -375,17 +383,17 @@ if (typeof excelHTMLObject.excelRows !== 'undefined'){
 
                 ws.mergeCells(fCol + (index + 1) + ':' + sCol + (index + 1 + rowSpan-1));
 				if (rowSpan > 1){
-					console.log("rowspan for cell %d",mergeOffset);
-					console.log("colspan: %d",colSpan);
+					// console.log("rowspan for cell %d",mergeOffset);
+					// console.log("colspan: %d",colSpan);
 					for (let i=1;i<rowSpan;i++)
 						if (typeof shifts[index+i] === 'undefined')
 							shifts[index+i] = {[mergeOffset]: colSpan};
 						else{
 							shifts[index+i][mergeOffset] = colSpan;
-							console.log(mergeOffset,colSpan);
+							// console.log(mergeOffset,colSpan);
 						}
 					
-					console.log(shifts);
+					// console.log(shifts);
 				}
             }
 
@@ -396,7 +404,7 @@ if (typeof excelHTMLObject.excelRows !== 'undefined'){
             mergeOffset += cell.colspan;
 			
 		}catch(e){
-			console.log(e);
+			// console.log(e);
 		};
         });
 
@@ -485,7 +493,7 @@ function Start() {
 				var blob = new Blob([buffer], {
 					type: "application/octet-stream"
 				})
-				saveAs(blob, "rand.xlsx");
+				saveAs(blob, "Klient.xlsx");
 
 			}).catch(
 			// Log the rejection reason
@@ -498,7 +506,7 @@ function Start() {
 
 }
 
-Start();
+// Start();
 
 
 /*
