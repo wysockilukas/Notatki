@@ -347,12 +347,20 @@ if (typeof excelHTMLObject.excelRows !== 'undefined'){
             align = (align === "start") ? 'left' : align;
             align = (align === "end") ? 'right' : align;
 
-
+			//KAROL B
+			let wrap = true;
+			if (cell.hasOwnProperty("wrapText"))
+				if (cell.wrapText == false)
+					wrap = false;
+				
             worksheetCell.alignment = {
                 vertical: cell.alignmentVert,
                 horizontal: align,
+				wrapText: wrap, //KAROL B
                 indent: cell.indent
-            };
+            };			
+
+
 
             if (cell.background_color !== "") {
                 if (cell.background_color == "#FFF") {
