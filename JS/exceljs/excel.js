@@ -23,6 +23,7 @@ var ExcelCell2 = function ExcelCell2(config) {
 	this.tabulation = typeof config.tabulation === 'undefined' ? 0 : config.tabulation;
 	this.href = typeof config.href === 'undefined' ? "" : config.href;
 	this.colspan = typeof config.colspan === 'undefined' ? 0 : config.colspan;
+	this.rowspan = typeof config.rowspan === 'undefined' ? 0 : config.rowspan;
 	this.cellElement = typeof config.cellElement === 'undefined' ? 0 : config.cellElement;
 	this.text = typeof config.text === 'undefined' ? "" : config.text;
 	this.excel_value = typeof config.excel_value === 'undefined' ? "BRAK" : config.excel_value;
@@ -70,6 +71,76 @@ var excelJSON = [];
 var excelSheet = {};
 var excelTable = new ExcelTable2({});
 
+/* functions for modifying excelJSON */
+var modifyExcelJSON = {
+	/* task template
+	{
+		sheets: "'all' or array with sheet indexes";
+		option: "'all' - iterate over table, 'rows' - iterate over particular 	rows, 'columns' - iterate over particular columns",
+		indexArray: "array with rows or columns indexes; omitted when option 	is different from 'all'",
+		fun: "function which is called for each iterated cell"
+	}
+	*/
+	tasks: [],
+	call: function(){
+		for (let i=0;i<this.tasks.length;i++)
+			this._executeTask(this.tasks[i]);
+	},
+	
+	_executeTask: function(task){
+		try{
+			let sheets = task.sheets, option = task.option, indexArray = task.indexArray, fun = task.fun;
+			
+			var self = this;
+			this._iterate["sheets"](sheets,function(sheet){
+				if (option === "all")
+					self._iterate["rows"](sheet,"all",fun);
+				else
+					if (option === "rows" || option === "columns")
+						self._iterate[option](sheet,indexArray,fun);
+					else
+						throw("unrecognized option in arguments of call function");
+					
+			});
+		}catch(e){
+			console.log("[modifyExcelJSON] ERROR:\n",e);
+		}
+	},
+	
+	_iterate: {
+		sheets: function(sheets,fun){
+			if (sheets === "all")
+				for (let i=0;i<excelJSON.length;i++)
+					fun(excelJSON[i]);
+			else
+				for (let i=0;i<sheets.length;i++)
+					fun(excelJSON[sheets[i]]);
+		},
+		rows: function(sheet,rows,fun){
+			console.log(arguments);
+			if (rows === "all"){
+				let rows = sheet.tableContent.excelRows;
+				for (let i=0;i<rows.length;i++)
+					for (let j=0;j<rows[i].excelCells.length;j++)
+						fun(rows[i].excelCells[j]);
+			}
+			else{
+				for (let i=0;i<rows.length;i++){
+					let row = sheet.tableContent.excelRows[rows[i]];
+					for (let j=0;j<row.excelCells.length;j++)
+						fun(row.excelCells[j]);
+				}
+			}
+		},
+		columns: function(sheet,columns,fun){
+			let rows = sheet.tableContent.excelRows;
+			for (let i=0;i<rows.length;i++)
+				for (let j=0;j<columns.length;j++)
+					fun(rows[i].excelCells[columns[j]]);
+			}
+		}
+};	
+
 var reportName = "", fileName = "", sheetName = "", tableName = "";
 var sheetNameDuplicates = {};
 var reports = [], tables = [], rows = [];
@@ -82,7 +153,7 @@ var scanning = {timeStep: 10, maxIter: 18000};
 var start = 0, end = 0;
 var busy = false, finished = false;
 
-const processInfoID = "ProcessInfoBar";
+/*const processInfoID = "ProcessInfoBar";
 var processInfo = {
 	ID: processInfoID,
 	
@@ -108,38 +179,37 @@ var processInfo = {
 			this[name] = params[name];
 	},
 	
-	bar$: null ,//$("#"+processInfoID),
+	bar$: document.getElementById(processInfoID),
 	
-	statusName$: null, //$("#"+processInfoID).find(".status-name"),
-	reportName$: null, //$("#"+processInfoID).find(".report-name"),
-	filling$: null, //$("#"+processInfoID).find(".filling"),
+	statusName$: document.getElementById(processInfoID).getElementsByClassName("status-name")[0],
+	reportName$: document.getElementById(processInfoID).getElementsByClassName("report-name")[0],
+	filling$: document.getElementById(processInfoID).getElementsByClassName("filling")[0],
 	
 	_update_status: function(){
-		this.statusName$.text(this.statusName)
+		this.statusName$.innerText = this.statusName;
 		if (this.statusName === "" || this.statusName === null)
 			this._removeSpinner();
 	},
 	_update_report: function(){ 
-		this.reportName$.text(this.reportName ? "["+this.reportName+"]" : "")
+		this.reportName$.innerText = this.reportName ? "["+this.reportName+"]" : "";
 	},
 	_update_progress: function(){
 		if (this.scannedRowsNum !== null && this.allRowsNum && reportsNum){
 			this.stagePercent = Math.round(this.scannedRowsNum/this.allRowsNum*100);
 			this.processPercent = parseInt( (reportNo*100 + this.stagePercent)/reportsNum );
 		
-			this.filling$
-				.text(this.processPercent+"%")
-				.css("width",this.processPercent+"%");
+			this.filling$.innerText = this.processPercent+"%";
+			this.filling$.style.width = this.processPercent+"%";
 		}
 		else 
-			if (this.processPercent !== null)
-				this.filling$
-					.text(this.processPercent+"%")
-					.css("width",this.processPercent+"%");
-			else
-				this.filling$
-					.text("")
-					.css("width","0");
+			if (this.processPercent !== null){
+				this.filling$.innerText = this.processPercent+"%";
+				this.filling$.style.width = this.processPercent+"%";
+			}
+			else{
+				this.filling$.innerText = "";
+				this.filling$.style.width = "0";
+			}
 	},
 	update: function(arr){
 		try{
@@ -157,10 +227,10 @@ var processInfo = {
 	},
 	
 	_addSpinner: function(){
-		// this.statusName$.addClass("with-spinner")
+		this.statusName$.classList.add("with-spinner");
 	},
 	_removeSpinner: function(){
-		// this.statusName$.removeClass("with-spinner")
+		this.statusName$.classList.remove("with-spinner");
 	},
 	
 	init: function(){
@@ -172,8 +242,8 @@ var processInfo = {
 		this.processPercent = 0;
 		
 		this.update();
-		// this.bar$.addClass("active");
-		// $(".overlay").show();
+		this.bar$.classList.add("active");
+		document.getElementsByClassName("overlay")[0].style.display = "block";
 	},
 	
 	reset: function(){
@@ -185,14 +255,15 @@ var processInfo = {
 		this.processPercent = null;
 		
 		this.update();
-		// $(".overlay").hide();
-		this.bar$.removeClass("active");
+		document.getElementsByClassName("overlay")[0].style.display = "none";
+		this.bar$.classList.remove("active");
 	}
 };
 
-const isIE = !!navigator.userAgent.match(/Trident\/7\./);
 
-
+if (typeof isIE === 'undefined')
+	var isIE = !!navigator.userAgent.match(/Trident\/7\./);
+*/
 
 
 
@@ -234,6 +305,7 @@ function scanCells(){
 			'tabulation': typeof cells[i].getElementsByTagName("A")[0]!== 'undefined' ? cells[i].getElementsByTagName("A")[0].innerText.replace(/\&nbsp\;/g, " ").length : 0,
 			'href': typeof cells[i].getElementsByTagName("A")[0]!== 'undefined' ? cells[i].getElementsByTagName("A")[0].getAttribute("href") : "",
 			'colspan': cells[i].colSpan,
+			'rowspan': cells[i].rowSpan,
 			'display': cellStyle.getPropertyValue('display'),
 			'cellElement': cellRef,
 			'text': cells[i].innerText,
@@ -303,16 +375,21 @@ export function startExcelExport(){
     sheetNameDuplicates = {};
 	
 	init.report();
-	init.table();
-	init.scanning();
 	
-    setTimeout(scanTables,0);
-    
+	if (tablesNum){
+		init.table();
+		init.scanning();
+	
+		setTimeout(scanTables,0);
+	}
+	else
+		alert("Nie znaleziono tabel do eksportowania \n[brak tabel o klasie jsExportToExcel]");
 }
 
-const init = {
+var init = {
 
 	scanning: function(){
+		/*
 		processInfo.init();
 		
 		processInfo.setParams({
@@ -322,6 +399,7 @@ const init = {
 			allRowsNum: countAllRows()
 		});
 		processInfo.update();
+		*/
 
 		start = performance.now();
 	},
@@ -396,9 +474,9 @@ function checkSheetName(){
 function afterScanning(level){
 	switch(level){
 		case 'row':
-            ++processInfo.scannedRowsNum;
+            //++processInfo.scannedRowsNum;
             ++rowNo;
-			processInfo.update(["progress"]);
+			//processInfo.update(["progress"]);
 			
 			console.log("------ row %d/%d", rowNo, rowsNum);
 			break;
@@ -418,10 +496,11 @@ function afterScanning(level){
 			break;
 			
 		case 'report':
-			processInfo.update(["progress"]);
-			//++reportNo;
+			//processInfo.update(["progress"]);
+			++reportNo;
 			
-			console.log("Report %s is ready", processInfo.reportName);
+			//console.log("Report %s is ready", processInfo.reportName);
+			console.log("Report is scanned");
 			break;
 			
 		case 'all':
@@ -429,18 +508,24 @@ function afterScanning(level){
 			let msg = "Total time of scanning: "+Math.round(end-start)+"ms";
 			console.log(msg);
 			
+			/*
 			processInfo.setParams({
 				statusName: processInfo._status(3),
 				reportName: ""
 			});
 			processInfo.update(["status","report"]);
+			*/
 	
 			setTimeout(function(){
 			
+				/*
 				processInfo.setParams({
 					statusName: processInfo._status(4)
 				});
 				processInfo.update(["status"]);
+				*/
+				
+				modifyExcelJSON.call();
 				
 				console.log("EXCEL JSON\n",excelJSON);
 				if (excelJSON.length)
@@ -460,10 +545,11 @@ function afterScanning(level){
 }
 
 function finishExcelExport(){
-    processInfo.reset();
+    //processInfo.reset();
 	
-	//$(".excel-btn:disabled").prop("disabled",false);
+	//document.getElementsByClassName("excel-btn").disabled = false;
 }
+
 
 
 function getUrlVars(){
@@ -502,27 +588,42 @@ const ajaxExcel2 = function(){
 			finishExcelExport();
 		}
     };
-    /*
-	xhttp.onerror = function(){
-			$.ajax({
-				type: 'POST',
-				url: 'https://mis.centrala.bzwbk/apex2/mis_mobile/mobile/applog',
-				data: {
-							processname: 'excel',
-							msg:'An error occurred during the transaction'
-				},
-				success: function(text) {
-							console.log('error saved to app log');
-				},
-				error: function (response) {
-							console.log(response);
-				}
-			});
+	xhttp.onerror = function(e){
+		var xhttp2 = new XMLHttpRequest();
+		xhttp2.onreadystatechange = function(){
+			if (xhttp2.readyState === 4 && xhttp2.status === 200)
+				console.log('error saved to app log');
+		};
+		xhttp2.onerror = function(){console.log(xhttp2.response)};
+		xhttp2.open("POST","https://mis.centrala.bzwbk/apex2/mis_mobile/mobile/applog");
+		xhttp2.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+		xhttp2.setRequestHeader("dataType", "json");
+		xhttp2.send(JSON.stringify({
+			processname: 'excel',
+			msg:'An error occurred during the transaction: ' + e.target.status
+		}));
+			
+		/*
+		$.ajax({
+			type: 'POST',
+			url: 'https://mis.centrala.bzwbk/apex2/mis_mobile/mobile/applog',
+			data: {
+						processname: 'excel',
+						msg:'An error occurred during the transaction'
+			},
+			success: function(text) {
+						console.log('error saved to app log');
+			},
+			error: function (response) {
+						console.log(response);
+			}
+		});
+		*/
 	
-			alert("Wystąpił błąd.");
-			finishExcelExport();
+		alert("Wystąpił błąd.");
+		finishExcelExport();
     }
-    */
+
 	//xhttp.open("POST", "/html2excel");
 	xhttp.open("POST", "/vmdev");
 	xhttp.setRequestHeader("Content-Type", "application/json; charset=utf-8");
@@ -530,13 +631,31 @@ const ajaxExcel2 = function(){
 	xhttp.responseType = 'blob';
 	xhttp.send(JSON.stringify(excelJSON));
 	
+	/*
 	processInfo.setParams({
 		statusName: processInfo._status(5)
 	});
 	processInfo.update(["status"]);
-	
+	*/
 }
 
+
+
+
+///////////////////////////////////////////////
+
+
+
+
+modifyExcelJSON.tasks.push({
+	sheets: "all",
+	option: "columns",
+	indexArray: [0],
+	fun: function(elem){
+		elem.text = elem.text.replace("keyboard_arrow_right",String.fromCharCode(parseInt("25B6", 16))+" ");
+		elem.text = elem.text.replace("keyboard_arrow_down",String.fromCharCode(parseInt("25BC", 16))+" ");
+	}
+});
 
 
 
