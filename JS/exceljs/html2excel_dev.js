@@ -381,8 +381,8 @@ if (typeof excelHTMLObject.excelRows !== 'undefined'){
 
                 ws.mergeCells(fCol + (index + 1) + ':' + sCol + (index + 1 + rowSpan-1));
 				if (rowSpan > 1){
-					console.log("rowspan for cell %d",mergeOffset);
-					console.log("colspan: %d",colSpan);
+					// console.log("rowspan for cell %d",mergeOffset);
+					// console.log("colspan: %d",colSpan);
 					for (let i=1;i<rowSpan;i++)
 						if (typeof shifts[index+i] === 'undefined')
 							shifts[index+i] = {[mergeOffset]: colSpan};
@@ -391,7 +391,7 @@ if (typeof excelHTMLObject.excelRows !== 'undefined'){
 							console.log(mergeOffset,colSpan);
 						}
 					
-					console.log(shifts);
+					// console.log(shifts);
 				}
             }
 
@@ -402,7 +402,7 @@ if (typeof excelHTMLObject.excelRows !== 'undefined'){
             mergeOffset += cell.colspan;
 			
 		}catch(e){
-			console.log(e);
+			// console.log(e);
 		};
         });
 
@@ -468,14 +468,20 @@ function createWorkbook(excelHTMLObject) {
 
 
 //create a server object:
+
 http.createServer(function (req, res) {
+    // console.log('0', req)
+
     var excelHTMLObject;
     var dataJson = "";
     req.on('data', function (data) {
+        // console.log('1' , data)
         dataJson += data.toString('utf8');
+
     });
     req.on('end', function () {
         excelHTMLObject = JSON.parse(dataJson);
+        // console.log('2' , excelHTMLObject)
         var workbook = createWorkbook(excelHTMLObject);
         var writebleStream = new stream.PassThrough();
         workbook.xlsx.write(writebleStream)
@@ -496,11 +502,13 @@ http.createServer(function (req, res) {
                 });
 
             }).catch(
-                // Log the rejection reason
                     (reason) => {
                     console.log('Handle rejected promise ('+reason+') here.');
                 });;
 
     });
-    // }).listen(5000); 
 }).listen(7661);
+
+
+
+ 

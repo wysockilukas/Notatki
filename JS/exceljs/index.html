@@ -1,21 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <script src="exceljs.js" ></script>
+    <script src="exceljs.js"></script>
     <script src="filesaver.js"></script>
     <!--<script src="input_date.js"></script>-->
-	<!--<script src="JSONdata.js"></script>-->
-	<script src="excelJSON2.js"></script>
-    <script src="app.js" ></script>
+    <!--<script src="JSONdata.js"></script>-->
+    <script src="excelJSON2.js"></script>
+    <script src="modify_excelJson.js"></script>
+    <script src="app.js"></script>
+    <script src = "newExcel.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
+
 <body>
-    
-    <button onclick="Start()">klient z Jsona</button>
+
+    <div class="tabelki">
+        <table class="jsExportToExcel tabelka" style="border:1px solid red">
+            <thead>
+                <tr>
+                    <th rowspan="2" class="jednostka czerwonyNaglowek">Jednostka</th>
+                    <th colspan="5" class="czerwonyNaglowek">DxNS Razem</th>
+                </tr>
+                <tr>
+                    <th>Stanowisko</th>
+                    <th>Plan</th>
+                    <th>Wykonanie</th>
+                    <th>Luka do planu</th>
+                    <th>Repalizacja planu [%]</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="jednostka">Sieć Oddziałów Banku</td>
+                    <td class="dane">1 100</td>
+                    <td class="dane">1 200</td>
+                    <td class="dane">1 100</td>
+                    <td class="dane">100</td>
+                    <td class="dane">90%</td>
+                </tr>
+                <tr>
+                    <td class="jednostka">Zachodni</td>
+                    <td class="dane">980</td>
+                    <td class="dane">10 125</td>
+                    <td class="dane"><span style="color:red;">1 305</span></td>
+                    <td class="dane">-200</td>
+                    <td class="dane">160%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="przyciski">
+        <ul>
+            <li>
+                <button onclick="Start()">klient z Jsona</button>
+            </li>
+            <li>
+                <button>Utworz Json</button>
+            </li>
+        </ul>
+    </div>
+
+
 
 
 </body>
+
 </html>

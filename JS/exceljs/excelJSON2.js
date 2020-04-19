@@ -332,6 +332,7 @@ var excelJSON =
                 "colspan": 1,
                 "rowspan": 1,
                 "cellElement": "th",
+                "wrapText": true,
                 "text": "Realizacja planu [%]",
                 "excel_value": null
               },

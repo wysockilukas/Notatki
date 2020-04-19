@@ -228,10 +228,10 @@ function setNumberFormat(cell, worksheetCell, index, sub_index, scale) {
                 // worksheetCell.value = Number((cell.text.replaceAll(" ", "").replaceAll(",", ".").replaceAll(znak, '')));
                 // worksheetCell.numFmt = '# ##0.00';
                 // worksheetCell.value = Number(vInNumber / scale);
-                worksheetCell.value = fullValue;
+                worksheetCell.value =  Number(fullValue);
                 worksheetCell.numFmt = getFormat('default', vPrecision);
 
-                console.log('worksheetCell.value ', worksheetCell.value,  worksheetCell.numFmt)
+                // console.log('worksheetCell.value ', worksheetCell.value,  worksheetCell.numFmt)
 
                 // if (index == 3 && sub_index == 24) {
                 // }
@@ -480,7 +480,7 @@ function createWorkbook(excelHTMLObject) {
 function Start() {
     // excelHTMLObject = JSON.parse(vInputdate);
     excelHTMLObject = excelJSON;
-    // console.log(excelHTMLObject);
+    console.log(excelHTMLObject);
 	//try{
 		var workbook = createWorkbook(excelHTMLObject);
 	//}catch(e){
