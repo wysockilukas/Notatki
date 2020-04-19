@@ -87,7 +87,7 @@ function wsSetRowsColumnsHeightWidth(excelHTMLObject, ws) {
             });
             ws.addRow(rowArray);
             }catch(e){
-                console.log(e);
+                // console.log(e);
             };
         });
     
@@ -172,7 +172,8 @@ function setNumberFormat(cell, worksheetCell, index, sub_index, scale) {
 
             var vInNumber = cell.text.replaceAll(" ", "").replaceAll(znak2, '').replaceAll(znak, '').replaceAll(",", ".").replace("(", "").replace(")", "").replaceAll("%", "");
             var fullValue =0
-            if (cell.excel_value=='BRAK' || !(cell.hasOwnProperty("excel_value")) ) {
+
+            if (cell.excel_value=='BRAK' || !(cell.hasOwnProperty("excel_value")) || cell.excel_value===null ) {
                 fullValue = vInNumber;
             } else {
                 fullValue = Number(cell.excel_value / (1000000 / scale));
@@ -224,7 +225,7 @@ function setNumberFormat(cell, worksheetCell, index, sub_index, scale) {
                 // worksheetCell.value = Number((cell.text.replaceAll(" ", "").replaceAll(",", ".").replaceAll(znak, '')));
                 // worksheetCell.numFmt = '# ##0.00';
                 // worksheetCell.value = Number(vInNumber / scale);
-                worksheetCell.value = fullValue;
+                worksheetCell.value = Number(fullValue);
                 worksheetCell.numFmt = getFormat('default', vPrecision);
 
                 // if (index == 3 && sub_index == 24) {
@@ -267,13 +268,13 @@ if (typeof excelHTMLObject.excelRows !== 'undefined'){
 			if (isShift){
 				while (shifts[index].hasOwnProperty(mergeOffset)){
 					mergeOffset += shifts[index][mergeOffset];
-					console.log("shift: row %d, cell %d",index,mergeOffset);
+					// console.log("shift: row %d, cell %d",index,mergeOffset);
 				}
 			}
 			try{
 				var worksheetCell = worksheetRow.getCell(mergeOffset + 1);
 			}catch(e){
-				console.log("out of scope?");
+				// console.log("out of scope?");
 			}
 			
 
@@ -340,17 +341,18 @@ if (typeof excelHTMLObject.excelRows !== 'undefined'){
             align = (align === "start") ? 'left' : align;
             align = (align === "end") ? 'right' : align;
 			
-			let wrap = false;
+			//KAROL B
+			let wrap = true;
 			if (cell.hasOwnProperty("wrapText"))
-				if (cell.wrapText == true)
-					wrap = true;
+				if (cell.wrapText == false)
+					wrap = false;
 				
             worksheetCell.alignment = {
                 vertical: cell.alignmentVert,
                 horizontal: align,
 				wrapText: wrap, //KAROL B
                 indent: cell.indent
-            };
+            };	
 
             if (cell.background_color !== "") {
                 if (cell.background_color == "#FFF") {
@@ -388,7 +390,7 @@ if (typeof excelHTMLObject.excelRows !== 'undefined'){
 							shifts[index+i] = {[mergeOffset]: colSpan};
 						else{
 							shifts[index+i][mergeOffset] = colSpan;
-							console.log(mergeOffset,colSpan);
+							// console.log(mergeOffset,colSpan);
 						}
 					
 					// console.log(shifts);
