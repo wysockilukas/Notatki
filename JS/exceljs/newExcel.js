@@ -1,6 +1,5 @@
 'use strict';
 
-
 class ExcelCell {
     constructor(cell) {
         const cellStyle = window.getComputedStyle(cell, null);
@@ -47,6 +46,90 @@ class ExcelTable2 {
     }
 }    
 
+
+function spowalniacz() {
+    var above = 0,
+        below = 0;
+    for (var i = 0; i < 10000000; i++) {
+        if (Math.random() * 2 > 1) {
+            above++;
+        } else {
+            below++;
+        }
+    }
+}
+
+
+const getCellJson = cell => {
+    return new Promise( (resolve, reject) => {
+        setTimeout(() => {
+            // spowalniacz();
+            // console.log('Kom ',cell )
+            const cellJson = new ExcelCell(cell)
+            resolve(cellJson )
+        }, 0);
+    })
+  }
+
+  const getJsonFromTables = async () => {
+    const output = []  
+    const progress = document.getElementsByClassName("pasekPostepu"); 
+    progress[0].innerText = "Start"
+    let excelSheet = {};
+    const tables = document.getElementsByClassName("jsExportToExcel");
+
+    for (let i=0; i < tables.length; i++) {
+        const excelTable = new ExcelTable2();
+        const row = tables[i].getElementsByTagName("TR"); 
+
+        for (let rowId=0; rowId < row.length; rowId++) { 
+            const rowJSON = new ExcelRow();
+            const cell = row[rowId].children;
+            for (let cellId=0; cellId < cell.length; cellId++) {
+                const cellJson = await getCellJson(cell[cellId])
+                rowJSON.add_cell( cellJson );
+                progress[0].innerHTML = `
+                <p>Tabela ${i+1} z ${tables.length}:</p>
+                <p>Wiersz ${rowId+1} z ${row.length}:</p>
+                <p>Komórka ${cellId+1} z ${cell.length}:</p>
+                `
+            }
+            excelTable.add_row(rowJSON);   
+        }
+
+        excelSheet = {};
+        excelSheet.sheetName = tables[i].getAttribute('tableName');
+        excelSheet.scale = 1;
+        excelSheet.tableContent = excelTable;
+        output.push(excelSheet);
+
+        
+     }
+     return output;
+
+  }
+
+var zz = ''
+for (var i =1; i <=2000; i++) {
+    zz += 
+    `<tr>
+    <td class="jednostka">Zachodni</td>
+    <td class="dane">${ parseFloat(Math.random()*100000).toLocaleString('pl')  }</td>
+    <td class="dane">${parseFloat(Math.random()*100000).toLocaleString('pl')}</td>
+    <td class="dane"><span style="color:red;">${parseFloat(Math.random()*100000).toLocaleString('pl')}</span></td>
+    <td class="dane">${parseFloat(Math.random()*100).toLocaleString('pl')}</td>
+    <td class="dane">${parseFloat(Math.random()*100).toLocaleString('pl')}%</td>
+   </tr>
+   `  ;
+};
+copy(zz);
+
+
+const getJsonFromTablesHandler = async () => {
+    const result = await getJsonFromTables()
+    naServer(result);
+    //console.log(result);
+}
 
 
 // const excelTableClass = ;
