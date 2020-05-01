@@ -38,3 +38,6 @@ git squash
 
 git config --global http.sslVerify false
 git config --global http.sslVerify true
+
+git config core.autocrlf false
+
