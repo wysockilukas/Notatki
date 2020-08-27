@@ -79,4 +79,22 @@ yum list
 yum --showduplicates list golang  
 
 
+### Services
+service httpd status  
+systemctl start httpd  
+systemctl stop  httpd  
+systemctl status  httpd  
+systemctl enable/disable httpd  zeby startowal z systemem  
+
+w /etc/ssystemd/system tworzymy plik z rozszerzeniem service np my_app.service  
+[Service]  
+ExecStart=/usr/bin/python3 /moje/app.py  
+  
+systemctl daemon-reload  
+systemctl start my_app  
+
+
+
+
+
 
