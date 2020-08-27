@@ -59,3 +59,11 @@ Shift+zz - Save the file and quit
 :w - Save the file but keep it open  
 :q - Quit without saving  
 :wq - Save the file and quit  
+  
+### Pakiety
+```bash
+rpm -i telnet.rpm
+rmp -e telnet
+rpm -q telnet.rpm
+```
+
