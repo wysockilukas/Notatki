@@ -74,6 +74,9 @@ cd /etc/yum.repos.d/
 Lista dostępnych repos  
 yum repolist  
 
+yum list golang  
+yum list  
+yum --showduplicates list golang  
 
 
 
