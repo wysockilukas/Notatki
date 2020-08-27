@@ -65,5 +65,15 @@ Shift+zz - Save the file and quit
 rpm -i telnet.rpm
 rmp -e telnet
 rpm -q telnet.rpm
+yum install ansible
+
 ```
+Tu są repos  
+cd /etc/yum.repos.d/  
+
+Lista dostępnych repos  
+yum repolist  
+
+
+
 
