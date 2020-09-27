@@ -168,9 +168,9 @@ Driver=/opt/teradata/client/17.00/odbc_64/lib/tdataodbc_sb64.so
 
 
 
-## Python
+# Python
 
-# jupyter
+## jupyter
 Zeby był dostepny zdalnie musiałem utworzyc i skonfigurować plik jupyter_notebook_config.py  
 Odkomentowałem dwie linie  
 c.NotebookApp.allow_origin = '*' #allow all origins  
