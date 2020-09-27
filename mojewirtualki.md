@@ -40,6 +40,14 @@ cp /opt/teradata/client/17.00/odbc_64/odbc.ini /home/osboxes/.odbc.ini
 cp /opt/teradata/client/17.00/odbc_64/odbc.ini /home/centos/.odbc.ini  
 sudo cp /opt/teradata/client/17.00/odbc_64/odbc.ini /etc/odbc.ini  
 isql -v td dbc dbc  
+.//odbcinst  
+./odbcinst -m  
+./odbcinst -c  
+./odbcinst -j  
+./odbcinst -n  
+./odbcinst -l  
+
+
 
 /etc/odbc.ini
 ```bash
@@ -161,6 +169,15 @@ Driver=/opt/teradata/client/17.00/odbc_64/lib/tdataodbc_sb64.so
 
 
 ## Python
-```bash
 
+# jupyter
+Zeby był dostepny zdalnie musiałem utworzyc i skonfigurować plik jupyter_notebook_config.py  
+Odkomentowałem dwie linie  
+c.NotebookApp.allow_origin = '*' #allow all origins  
+c.NotebookApp.ip = '0.0.0.0' # listen on all IPs  
+
+A ponzniej musialem otworzyc porty w firewall  
+```bash
+firewall-cmd --zone=public --add-port=8888/tcp --permanent
+firewall-cmd --reload
 ```
