@@ -21,7 +21,7 @@ git checkout newBranch
 
 git mergere newBranch
 git remote
-git remote add origin https://
+git remote add origin "add url"
 git push origin master
 git push -u origin master				po tym mozna krocej git push
 pit push --all origin   				to wysle tez branches
