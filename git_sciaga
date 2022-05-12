@@ -41,3 +41,13 @@ git config --global http.sslVerify true
 
 git config core.autocrlf false
 
+
+### dodawanie klucza ssh w windows
+w git bash  
+```bash
+cd ~
+ssh-keygen -t rsa -b 4096 -C "iiii@outlook.com"  (enter enter)
+exec ssh-agent bash  (mozliwe ze to nie zawsze jest potrzebne)
+ssh-add .ssh/id_rsa
+clip < .ssh/id_rsa.pub (kopiuje do schowka
+```
